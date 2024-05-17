@@ -1,147 +1,147 @@
-<!-- Title -->
+<h1 align="center">
+  <a href="https://reactnative.dev/">
+    React Native
+  </a>
+</h1>
 
 <p align="center">
-  <a href="https://github.com/expo/examples">
-    <img alt="create-react-native-app" src="./.gh-assets/banner.svg">
-    <h1 align="center">Create React Native App</h1>
+  <strong>Learn once, write anywhere:</strong><br>
+  Build mobile apps with React.
+</p>
+
+<p align="center">
+  <a href="https://github.com/facebook/react-native/blob/HEAD/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="React Native is released under the MIT license." />
+  </a>
+  <a href="https://circleci.com/gh/facebook/react-native">
+    <img src="https://circleci.com/gh/facebook/react-native.svg?style=shield" alt="Current CircleCI build status." />
+  </a>
+  <a href="https://www.npmjs.org/package/react-native">
+    <img src="https://img.shields.io/npm/v/react-native?color=brightgreen&label=npm%20package" alt="Current npm package version." />
+  </a>
+  <a href="https://reactnative.dev/docs/contributing">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
+  </a>
+  <a href="https://twitter.com/intent/follow?screen_name=reactnative">
+    <img src="https://img.shields.io/twitter/follow/reactnative.svg?label=Follow%20@reactnative" alt="Follow @reactnative" />
   </a>
 </p>
 
-<!-- Header -->
+<h3 align="center">
+  <a href="https://reactnative.dev/docs/getting-started">Getting Started</a>
+  <span> · </span>
+  <a href="https://reactnative.dev/docs/tutorial">Learn the Basics</a>
+  <span> · </span>
+  <a href="https://reactnative.dev/showcase">Showcase</a>
+  <span> · </span>
+  <a href="https://reactnative.dev/docs/contributing">Contribute</a>
+  <span> · </span>
+  <a href="https://reactnative.dev/help">Community</a>
+  <span> · </span>
+  <a href="https://github.com/facebook/react-native/blob/HEAD/.github/SUPPORT.md">Support</a>
+</h3>
 
-<p align="center">
-  <b>The fastest way to create universal React Native apps</b>
-  <br />
+React Native brings [**React**'s][r] declarative UI framework to iOS and Android. With React Native, you use native UI controls and have full access to the native platform.
 
-  <p align="center">
-    <!-- iOS -->
-    <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-000.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-    <!-- Android -->
-    <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-000.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-    <!-- Web -->
-    <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-000.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-  </p>
-  <p align="center">
-    <a href="https://packagephobia.now.sh/result?p=create-react-native-app">
-      <img alt="the best way to bootstrap a react native app" longdesc="the best way to create a react native app" src="https://flat.badgen.net/packagephobia/install/create-react-native-app" />
-    </a>
-  </p>
-  
-</p>
+- **Declarative.** React makes it painless to create interactive UIs. Declarative views make your code more predictable and easier to debug.
+- **Component-Based.** Build encapsulated components that manage their state, then compose them to make complex UIs.
+- **Developer Velocity.** See local changes in seconds. Changes to JavaScript code can be live reloaded without rebuilding the native app.
+- **Portability.** Reuse code across iOS, Android, and [other platforms][p].
 
-<!-- Body -->
+React Native is developed and supported by many companies and individual core contributors. Find out more in our [ecosystem overview][e].
 
-```sh
-npx create-react-native-app
-```
+[r]: https://react.dev/
+[p]: https://reactnative.dev/docs/out-of-tree-platforms
+[e]: https://github.com/facebook/react-native/blob/HEAD/ECOSYSTEM.md
 
-Once you're up and running with Create React Native App, visit [this tutorial](https://reactnative.dev/docs/tutorial) for more information on building mobile apps with React.
+## Contents
 
-<p align="center">
-  <img align="center" alt="Product: demo" src="./.gh-assets/crna.gif" />
-</p>
+- [Requirements](#-requirements)
+- [Building your first React Native app](#-building-your-first-react-native-app)
+- [Documentation](#-documentation)
+- [Upgrading](#-upgrading)
+- [How to Contribute](#-how-to-contribute)
+- [Code of Conduct](#code-of-conduct)
+- [License](#-license)
 
-## Features
 
-- Native project ready to be built on to your device.
-- Support for unimodules and auto-linking.
-- OTA updates, and Gestures out of the box.
-- Full support for React Native web.
-- Plug-n-play custom templates.
-- Works with the Expo Client app.
+## 📋 Requirements
 
-## Usage
+React Native apps may target iOS 13.4 and Android 6.0 (API 23) or newer. You may use Windows, macOS, or Linux as your development operating system, though building and running iOS apps is limited to macOS. Tools like [Expo](https://expo.dev) can be used to work around this.
 
-- `npx create-react-native-app` Create a new native React app.
-- `yarn ios` -- (`expo run:ios`) Build the iOS App (requires a MacOS computer).
-- `yarn android` -- (`expo run:android`) Build the Android App.
-- `yarn web` -- (`expo start:web`) Run the website in your browser.
+## 🎉 Building your first React Native app
 
-### Templates
+Follow the [Getting Started guide](https://reactnative.dev/docs/getting-started). The recommended way to install React Native depends on your project. Here you can find short guides for the most common scenarios:
 
-By default you create a [bare-workflow React](https://docs.expo.io/bare/exploring-bare-workflow/) project with support for iOS, Android, and web. You can opt to use an example project instead by selecting the "Templates from ..." option. Custom templates can be used with `--template <Example Name or GitHub URL>` option.
+- [Trying out React Native][hello-world]
+- [Creating a New Application][new-app]
+- [Adding React Native to an Existing Application][existing]
 
-- Use an [example](https://github.com/expo/examples): `npx create-react-native-app -t with-typescript`
-- Use a custom template: `npx create-react-native-app --template https://github.com/someone/my-react-starter` -- Only works with GitHub repos on the master branch.
-- All examples can be modified in the [expo/examples](https://github.com/expo/examples) repo.
+[hello-world]: https://snack.expo.dev/@samples/hello-world
+[new-app]: https://reactnative.dev/docs/getting-started
+[existing]: https://reactnative.dev/docs/integration-with-existing-apps
 
-## Sections
+## 📖 Documentation
 
-- [Usage with Expo Client App](#usage-with-expo-client-app)
-- [Support and Contact](#support-and-contact)
-- [FAQs](#faqs)
-- [Contributing](#contributing)
+The full documentation for React Native can be found on our [website][docs].
 
-## Usage with Expo Go App
+The React Native documentation discusses components, APIs, and topics that are specific to React Native. For further documentation on the React API that is shared between React Native and React DOM, refer to the [React documentation][r-docs].
 
-Expo Client enables you to work with all of the [Components and APIs](https://facebook.github.io/react-native/docs/getting-started) in `react-native`, as well as the [JavaScript APIs](https://docs.expo.io/versions/latest) that the are bundled with the Expo App.
+The source for the React Native documentation and website is hosted on a separate repo, [**@facebook/react-native-website**][repo-website].
 
-Expo Client supports running any project that doesn't have custom native modules added.
+[docs]: https://reactnative.dev/docs/getting-started
+[r-docs]: https://react.dev/learn
+[repo-website]: https://github.com/facebook/react-native-website
 
-- Download the "Expo Go" app from the Play Store or App Store.
-- Start your project with Expo
-  - Install the CLI `npm i -g expo-cli`
-  - Start the project `expo start`
-- Open the project:
-  - Sign in to expo and the project will appear in the app.
-  - Or point your phone's camera at the QR code in the terminal (press "c" to view it).
+## 🚀 Upgrading
 
-## Support and Contact
+Upgrading to new versions of React Native may give you access to more APIs, views, developer tools, and other goodies. See the [Upgrading Guide][u] for instructions.
 
-If you're having issues with Create React Native App, please make sure:
+React Native releases are discussed [in this discussion repo](https://github.com/reactwg/react-native-releases/discussions).
 
-- The issue is not covered in the [Expo Docs](https://docs.expo.io/versions/latest/)
-- There is not already an [open issue](https://github.com/expo/expo-cli/issues) for your particular problem
+[u]: https://reactnative.dev/docs/upgrading
+[repo-releases]: https://github.com/react-native-community/react-native-releases
 
-If you've checked the documentation and currently open issues, please either [open a new GitHub issue](https://github.com/expo/create-react-native-app/issues/new) or ask a question on [Expo forums](https://forums.expo.io/c/help).
+## 👏 How to Contribute
 
-## Contributing
+The main purpose of this repository is to continue evolving React Native core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving React Native.
 
-Please see [Contributing guide](https://github.com/expo/expo-cli/blob/master/CONTRIBUTING.md) in the Expo CLI monorepo for instructions on contributing to Expo CLI.
+### [Code of Conduct][code]
 
-### Attribution
+Facebook has adopted a Code of Conduct that we expect project participants to adhere to.
+Please read the [full text][code] so that you can understand what actions will and will not be tolerated.
 
-The examples feature was inspired by the `templates` system of [create-next-app](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) by the [Vercel](https://vercel.com/) team.
+[code]: https://code.fb.com/codeofconduct/
 
-## Related
+### [Contributing Guide][contribute]
 
-CRNA is focused on being the fastest way to bootstrap a React Native app without worrying about the native platforms or bundlers required for developing and shipping apps. Other tools provide both an init script (which is slower) and a suite of other tools that can be used for interacting with the project. CRNA is meant to be used with any of the following tools:
+Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to React Native.
 
-- [Expo CLI](https://github.com/expo/expo-cli) by [Expo team](https://expo.io)
-- [Ignite CLI](https://github.com/infinitered/ignite) by [Infinite Red](https://infinite.red/)
-- [React Native Community CLI](https://github.com/react-native-community/cli) by members of [the React Native community](https://github.com/orgs/react-native-community/people)
+[contribute]: https://reactnative.dev/docs/contributing
 
-<!-- Footer -->
+### [Open Source Roadmap][roadmap]
 
-## Contributors ✨
+You can learn more about our vision for React Native in the [**Roadmap**][roadmap].
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[roadmap]: https://github.com/facebook/react-native/wiki/Roadmap
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+### Good First Issues
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://twitter.com/baconbrix"><img src="https://avatars1.githubusercontent.com/u/9664363?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evan Bacon</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=EvanBacon" title="Code">💻</a> <a href="https://github.com/expo/create-react-native-app/commits?author=EvanBacon" title="Documentation">📖</a> <a href="#design-EvanBacon" title="Design">🎨</a> <a href="#maintenance-EvanBacon" title="Maintenance">🚧</a> <a href="https://github.com/expo/create-react-native-app/pulls?q=is%3Apr+reviewed-by%3AEvanBacon" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://expo.io"><img src="https://avatars2.githubusercontent.com/u/90494?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brent Vatne</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=brentvatne" title="Code">💻</a> <a href="https://github.com/expo/create-react-native-app/commits?author=brentvatne" title="Documentation">📖</a> <a href="https://github.com/expo/create-react-native-app/pulls?q=is%3Apr+reviewed-by%3Abrentvatne" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="http://hamzah"><img src="https://avatars0.githubusercontent.com/u/26879042?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hamza Halilovic</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=hamzahalilovic" title="Code">💻</a></td>
-    <td align="center"><a href="https://bycedric.com"><img src="https://avatars2.githubusercontent.com/u/1203991?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Cedric van Putten</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=byCedric" title="Code">💻</a></td>
-    <td align="center"><a href="https://twitter.com/VilleImmonen"><img src="https://avatars3.githubusercontent.com/u/497214?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ville Immonen</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=fson" title="Code">💻</a> <a href="https://github.com/expo/create-react-native-app/pulls?q=is%3Apr+reviewed-by%3Afson" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/friederbluemle"><img src="https://avatars0.githubusercontent.com/u/743291?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Frieder Bluemle</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=friederbluemle" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/kbrandwijk"><img src="https://avatars.githubusercontent.com/u/852069?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kim Brandwijk</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=kbrandwijk" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/srkds"><img src="https://avatars.githubusercontent.com/u/61644078?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nirav</b></sub></a><br /><a href="https://github.com/expo/create-react-native-app/commits?author=srkds" title="Code">💻</a></td>
-  </tr>
-</table>
+We have a list of [good first issues][gfi] that contain bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+[gfi]: https://github.com/facebook/react-native/labels/good%20first%20issue
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+### Discussions
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Larger discussions and proposals are discussed in [**@react-native-community/discussions-and-proposals**][repo-meta].
+
+[repo-meta]: https://github.com/react-native-community/discussions-and-proposals
+
+## 📄 License
+
+React Native is MIT licensed, as found in the [LICENSE][l] file.
+
+React Native documentation is Creative Commons licensed, as found in the [LICENSE-docs][ld] file.
+
+[l]: https://github.com/facebook/react-native/blob/main/LICENSE
+[ld]: https://github.com/facebook/react-native/blob/main/LICENSE-docs
