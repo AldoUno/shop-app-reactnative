@@ -1,13 +1,55 @@
-import { Text, Box, Heading, VStack, Input, Image, Button, Pressable} from 'native-base'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons'
-import React from 'react'
+import { Text, Box, Heading, VStack, Input, Image, Button, Pressable } from 'native-base'
+import { Ionicons } from '@expo/vector-icons'
+import React, { useState } from 'react'
 import Colors from '../color'
-//import { Pressable } from 'react-native'
+import { Keyboard } from 'react-native'
+import { LoginInit } from '../Services/fetchServices'
+import FormikInputValue from '../Components/Form/FormikInputValue'
+import FormikInputPasswordValue from '../Components/Form/FormInputPasswordValue'
+import loginValidationSchema from '../Components/ValidationSchema/login'
+import StyledText from '../Components/Form/StyledText'
+import { Formik } from 'formik'
 
-function LoginScreen({navigation}) {
+const initialValues = {
+  email: '',
+  password: ''
+}
+
+const LoginScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const Submit = (data) => {
+    setLoading(true)
+    setError('')
+    Keyboard.dismiss()
+
+    LoginInit(data)
+      .then(async response => {
+        if (response.ok) return response.json()
+        else {
+          const { message } = await response.json()
+          throw new Error(message)
+        }
+      })
+      .then(async () => {
+        navigation.navigate('Bottom')
+      })
+      .catch(error => {
+        setError(error.message)
+      })
+      .finally(() => setLoading(false))
+  }
+
+  const Alert = ({ error }) => {
+    return (
+      <StyledText style={{ color: 'red' }}>{error}</StyledText>
+    )
+  }
+
   return (
     /* Enlace para ir a la pantalla de registro */
-    <Box flex={1} bg={Colors.white}> 
+    <Box flex={1} bg={Colors.white}>
       <Image
         flex={1}
         alt="Logo"
@@ -16,59 +58,71 @@ function LoginScreen({navigation}) {
         w="full"
         source={require("../../assets/cover.png")}
       />
-      <Box 
-        w="full" 
-        h="full" 
-        position="absolute" 
-        top="0" 
-        px="6"        
+      <Box
+        w="full"
+        h="full"
+        position="absolute"
+        top="0"
+        px="6"
         justifyContent="center"
-        >
-          <Heading>LOG IN</Heading>
-          <VStack space={8} pt="6">
-            {/* USUARIO */}
-            <Input
-              InputLeftElement={
-                <MaterialIcons name="email" size={20} color={Colors.black} />
-              }            
-              variant="underlined" 
-              placeholder="user@gmail.com"
-              w="70%"
-              pl={2}
-              color={Colors.black}
-              borderBottomColor={Colors.underline}
-            />
-            {/*CONTRASEÑA*/}
-            <Input
-              InputLeftElement={
-                <Ionicons name="eye-sharp" size={20} color="black" />
-              }            
-              variant="underlined" 
-              placeholder="************"
-              w="70%"
-              type="password"
-              pl={2}
-              color={Colors.black}
-              borderBottomColor={Colors.underline}
-            />
-          </VStack>
-          {/* Botón de inicio de sesión */}
-          <Button
-          _pressed={{ 
-            bg:Colors.main,
-          }}
-          my={30} 
-          w="40%" 
-          rounded={50} 
-          bg={Colors.main}
-          onPress={() => navigation.navigate('Bottom')}
+      >
+        <Heading>LOG IN</Heading>
+        <VStack space={8} pt="6">
+          {/* USUARIO */}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, { resetForm }) => {
+              Submit(values, resetForm)
+            }}
+            validateOnBlur={false}
+            validateOnChange={false}
+            validationSchema={loginValidationSchema}
           >
-            LOG IN
-          </Button>
-           {/* Enlace para ir a la pantalla de registro */}
-          <Pressable mt={4} onPress={() => navigation.navigate('Register')}>
-            <Text color={Colors.black} bold>¡CREA TU CUENTA!</Text>
-          </Pressable>
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
+
+              <>
+                <FormikInputValue
+                  name='email'
+                  placeholder="admin@gmail.com"
+                  label='Email'
+                />
+
+                <FormikInputPasswordValue
+                  name='password'
+                  placeholder="************"
+                  label='Contraseña'
+                />
+
+                {
+                  error
+                    ? <Alert error={error} />
+                    : null
+                }
+
+                <Button
+                  _pressed={{
+                    bg: Colors.main,
+                  }}
+                  my={30}
+                  w="40%"
+                  rounded={50}
+                  bg={Colors.main}
+                  onPress={handleSubmit}
+                  isLoading={loading}
+                  isLoadingText="Iniciando..."
+                >
+                  LOG IN
+                </Button>
+              </>
+            )}
+          </Formik>
+        </VStack>
+        {/* Botón de inicio de sesión */}
+
+        {/* Enlace para ir a la pantalla de registro */}
+        <Pressable mt={4} onPress={() => navigation.navigate('Register')}>
+          <Text color={Colors.black} bold>¡CREA TU CUENTA!</Text>
+        </Pressable>
       </Box>
     </Box>
   )
