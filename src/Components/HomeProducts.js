@@ -20,7 +20,8 @@ const ProductItem = memo(({ product, navigation }) => (
     overflow="hidden"
   >
     <Image
-      source={{ uri: 'product.url' }}
+      //source={{ uri: 'http://www.superseis.com.py/images/thumbs/0249658.jpeg' }}
+      source={{ uri: `http://${product.url}` }}
       alt={`${product.name}`}
       style={{
         width: '100%',

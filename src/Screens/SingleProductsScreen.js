@@ -35,8 +35,8 @@ function SingleProductsScreen({ route }) {
     <Box safeArea flex={1} bg={Colors.white}>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
         <Image
-          //source={{ uri: 'https://www.superseis.com.py/images/thumbs/0249658.jpeg' }}
-          source={{ uri: 'product.url' }}
+          //source={{ uri: 'http://www.superseis.com.py/images/thumbs/0249658.jpeg' }}
+          source={{ uri: `http://${product.url}` }}
           alt={`${product.name}`}
           w="full"
           h={300}
