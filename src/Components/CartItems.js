@@ -1,18 +1,17 @@
-import { Box, Center, HStack, Pressable, Image, VStack, Text, Button } from "native-base";
+import { Box, Text, Center, Pressable, Image, HStack, VStack, Button } from "native-base";
 import React from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
-import products from "../data/Products";
 import Colors from "../color";
 import { FontAwesome } from "@expo/vector-icons";
 import Buttone from "./Buttone";
 
-const Swiper = () => (
+const Swiper = ({ products }) => (
   <SwipeListView
     rightOpenValue={-50}
     previewRowKey="0"
     previewOpenValue={-40}
     previewOpenDelay={3000}
-    data={products.slice(0, 2)}
+    data={products}
     renderItem={renderitem}
     renderHiddenItem={hiddenitem}
     showsVerticalScrollIndicator={false}
@@ -53,7 +52,7 @@ const renderitem = (data) => (
             _text={{ color: Colors.white,
             }}            
           >
-            4
+            {data.item.quantity}
           </Button>
         </Center>
       </HStack>
@@ -61,7 +60,6 @@ const renderitem = (data) => (
   </Pressable>
 );
 
-//Hidden
 const hiddenitem = () => (
   <Pressable
     w={50}
@@ -78,10 +76,10 @@ const hiddenitem = () => (
   </Pressable>
 );
 
-const CartItems = () => {
+const CartItems = ({ product }) => {
   return (
     <Box mr={6}>
-      <Swiper />
+      <Swiper products={product} />
     </Box>
   );
 };

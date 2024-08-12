@@ -1,12 +1,14 @@
 import { Input, HStack, Box, Pressable } from 'native-base'
-import React from 'react'
+import React, { useContext } from 'react'
 //import { Pressable } from 'react-native'
 import Colors from '../color'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { CartContext } from '../context/CartContext'
 
 function HomeSearch() {
   const navigation = useNavigation()
+  const { cart } = useContext(CartContext)
   return (
     <HStack 
       space={3} 
@@ -30,20 +32,22 @@ function HomeSearch() {
         />
         <Pressable ml={3} onPress={() => navigation.navigate('Cart')}>
           <FontAwesome5 name="shopping-basket" size={24} color={Colors.white} />
+          {cart.length > 0 && (
           <Box 
             px={1} 
             rounded="full" 
             position="absolute" 
             top={-13} 
             left={2} 
-            bg={Colors.red}
+            bg={Colors.coffe}
             _text={{ 
-              color:Colors.white, 
-              fontSize:'11px'
+              color: Colors.white, 
+              fontSize: '11px'
             }}
           >
-            5
+            {cart.length}
           </Box>
+          )}
         </Pressable>
       </HStack>
   )
