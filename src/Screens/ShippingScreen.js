@@ -42,9 +42,9 @@ function ShippingScreen() {
           DIRECCIÓN DE ENVÍO
         </Text>
       </Center>
-      <Box h="full" bg={Colors.white} px={5}>
+      <Box h="full" bg={Colors.white} px={5} >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <VStack space={6} mt={5}>
+          <VStack space={3} mt={5}>
             {ShippingInputs.map((i, index) => (
               <FormControl key={index}>
                 <FormControl.Label
