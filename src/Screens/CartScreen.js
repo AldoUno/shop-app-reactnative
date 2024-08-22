@@ -5,12 +5,13 @@ import { CartContext } from '../context/CartContext';
 import CartItems from '../Components/CartItems';
 import Buttone from '../Components/Buttone';
 import { useNavigation } from '@react-navigation/native';
+import CartEmpty from '../Components/CartEmpty';
 
 function CartScreen() {
   const navigation = useNavigation();
-  const { cart } = useContext(CartContext);
+  const { cart, removeFromCart } = useContext(CartContext);
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + item.precio * item.quantity, 0);
 
   return (
     <Box flex={1} safeAreaTop bg={Colors.sudOrange} justifyContent="center" py={10}>
@@ -24,9 +25,9 @@ function CartScreen() {
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
           <VStack space={4}>
-            {cart.map((product, index) => (
-              <CartItems key={index} product={product} />
-            ))}
+          {cart.map((product, index) => (
+            <CartItems key={index} product={product} removeFromCart={removeFromCart} />
+          ))}
           </VStack>
         </ScrollView>
       )}
@@ -42,7 +43,7 @@ function CartScreen() {
           alignItems="center"
         >
           <Text>Total</Text>
-          <Text>₲{total}</Text>
+          <Text mr={4}>₲{total}</Text>
         </HStack>
       </Center>
       <Center px={5}>
@@ -60,3 +61,6 @@ function CartScreen() {
 }
 
 export default CartScreen;
+
+
+

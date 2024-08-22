@@ -6,7 +6,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { CartContext } from '../context/CartContext'
 
-function HomeSearch() {
+function HomeSearch({ searchQuery, setSearchQuery }) {
   const navigation = useNavigation()
   const { cart } = useContext(CartContext)
   return (
@@ -19,7 +19,9 @@ function HomeSearch() {
       alignItems="center" 
       safeAreaTop>
         <Input 
-          placeholder="Canastos, chocolates, vino..." 
+          placeholder="Canastos, chocolates, vino..."
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)} 
           w="85%" 
           bg={Colors.white} 
           type="search"

@@ -5,7 +5,7 @@ import Colors from "../color";
 import { FontAwesome } from "@expo/vector-icons";
 import Buttone from "./Buttone";
 
-const Swiper = ({ products }) => (
+const Swiper = ({ products, onRemove }) => (
   <SwipeListView
     rightOpenValue={-50}
     previewRowKey="0"
@@ -13,14 +13,14 @@ const Swiper = ({ products }) => (
     previewOpenDelay={3000}
     data={products}
     renderItem={renderitem}
-    renderHiddenItem={hiddenitem}
+    renderHiddenItem={(data) => hiddenitem(data, onRemove)}
     showsVerticalScrollIndicator={false}
   />
 );
 
 const renderitem = (data) => (
   <Pressable>
-    <Box ml={6} mb={3}>
+    <Box ml={6} mb={0}>
       <HStack
         alignItems="center"
         bg={Colors.white}
@@ -30,7 +30,7 @@ const renderitem = (data) => (
       >
         <Center w="25%" bg={Colors.deepGray}>
           <Image
-            source={{ uri: data.item.image }}
+            source={{ uri: `http://${data.item.url}` }}
             alt={data.item.name}
             w="full"
             h={24}
@@ -42,7 +42,7 @@ const renderitem = (data) => (
             {data.item.name}
           </Text>
           <Text bold color={Colors.lightBlack}>
-            ₲{data.item.price}
+            ₲{data.item.precio}
           </Text>
         </VStack>
         <Center>
@@ -60,7 +60,7 @@ const renderitem = (data) => (
   </Pressable>
 );
 
-const hiddenitem = () => (
+const hiddenitem = (data, onRemove) => (
   <Pressable
     w={50}
     roundedTopRight={10}
@@ -69,6 +69,7 @@ const hiddenitem = () => (
     ml="auto"
     justifyContent="center"
     bg={Colors.red}
+    onPress={() => onRemove(data.item.id)}   
   >
     <Center alignItems="center" space={2}>
       <FontAwesome name="trash" size={24} color={Colors.white} />
@@ -76,10 +77,10 @@ const hiddenitem = () => (
   </Pressable>
 );
 
-const CartItems = ({ product }) => {
+const CartItems = ({ product, removeFromCart  }) => {
   return (
     <Box mr={6}>
-      <Swiper products={product} />
+      <Swiper products={[product]} onRemove={removeFromCart} />
     </Box>
   );
 };

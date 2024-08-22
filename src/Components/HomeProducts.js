@@ -35,13 +35,13 @@ const ProductItem = memo(({ product, navigation }) => (
         ₲{product.precio}
       </Heading>
       <Text fontSize={12} mt={1} isTruncated w="full">
-        {product.descripcion}
+        {product.name}
       </Text>
     </Box>
   </Pressable>
 ));
 
-function HomeProducts() {
+function HomeProducts({ searchQuery }) {
   const navigation = useNavigation();
   const toast = useToast();
   const [products, setProducts] = useState([]);
@@ -79,6 +79,10 @@ function HomeProducts() {
       .finally(() => { setLoading(false); setLoadingMore(false); });
   };
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const loadMoreProducts = () => {
     if (!loadingMore && hasMoreProducts) {
       setLoadingMore(true);
@@ -114,7 +118,8 @@ function HomeProducts() {
 
   return (
     <FlatList
-      data={products}
+      data={filteredProducts}
+      //data={products}
       numColumns={2}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (

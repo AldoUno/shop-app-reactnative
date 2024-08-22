@@ -81,7 +81,7 @@ function SingleProductsScreen({ route }) {
         <Buttone onPress={handleAddToCart} bg={Colors.main} color={Colors.white} mt={10}>
           AÑADIR AL CARRITO
         </Buttone>
-        <Review />
+        <Review productId={product.id} productName={product.name} />
       </ScrollView>
     </Box>
   );

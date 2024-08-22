@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   FormControl,
@@ -13,23 +13,71 @@ import {
 import Colors from "../color";
 import Rating from "./Rating";
 import Message from "./Notifications/Message";
-import { CheckBox } from "react-native-web";
+import { CheckBox } from "react-native";
 import Buttone from "./Buttone";
 
-export default function Review() {
+export default function Review({ productId, productName }) {
   const [rating, setRating] = useState("");
+  const [comment, setCommet] = useState("");
+  const [averageRating, setAverageRating] = useState(null);
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    // Obtener el promedio de rating del producto
+    const fetchAverageRating = async () => {
+      try {
+        const response = await fetch(`http://tu-api.com/api/product/${productId}/average-rating`);
+        const data = await response.json();
+        if (data.ok) {
+          setAverageRating(data.averageRating);
+        } else {
+          console.error(data.msg);
+        }
+      } catch (error) {
+        console.error('Error fetching average rating:', error);
+      }
+    };
+
+    // Obtener las reseñas del producto
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`http://tu-api.com/api/product/${productId}/reviews`);
+        const data = await response.json();
+        if (data.ok) {
+          setReviews(data.reviews);
+        } else {
+          console.error(data.msg);
+        }
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
+    fetchAverageRating();
+    fetchReviews();
+  }, [productId]);
+
+
+  const handleSubmit = () => {
+    // Aquí puedes enviar la reseña al backend usando productId
+    console.log("Product ID:", productId);
+    console.log("Rating:", rating);
+    console.log("Comment:", comment);
+    // Implementar lógica para enviar datos al backend
+  };
+
   return (
     <Box my={9}>
       <Heading bold fontSize={15} mb={2}>
         REVIEW
       </Heading>
       {/* IF THERE IS NO REVIEW */}
-      {/*<Message
+      <Message
         color={Colors.main}
         bg={Colors.deepGray}
         bold
         children={"NO REVIEW"}
-      />*/}
+      />
 
       {/* REVIEW */}
       <Box p={3} bg={Colors.deepGray} mt={5} rounded={5}>
@@ -50,7 +98,7 @@ export default function Review() {
         />
       </Box>
       {/* WRITE REVIEW */}
-      {/*<Box* mt={6}>
+      <Box mt={6}>
         <Heading fontSize={15} bold mb={4}>
           REVIEW THIS PRODUCT
         </Heading>
@@ -79,9 +127,11 @@ export default function Review() {
               selectedValue={rating}
               onValueChange={(e) => setRating(e)}
             >
-              <Select.Item label="1 - Poor" value="1" />
-              <Select.Item label="2 - Fair" value="2" />
-              <Select.Item label="3 - Good" value="3" />
+            <Select.Item label="1 - Poor" value="1" />
+            <Select.Item label="2 - Fair" value="2" />
+            <Select.Item label="3 - Good" value="3" />
+            <Select.Item label="4 - Very Good" value="4" />
+            <Select.Item label="5 - Excellent" value="5" />
             </Select>
           </FormControl>
           <FormControl>
@@ -109,15 +159,15 @@ export default function Review() {
             SUBMIT
           </Buttone>
           
-          <Message
+          {/*<Message
           color={Colors.white}
           bg={Colors.black}          
           children={
             "Please 'Login' to write a review" 
           }
-        />
+        />*/}
         </VStack>
-        </Box*/}
+        </Box>
     </Box>
   );
 }
