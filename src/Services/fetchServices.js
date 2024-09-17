@@ -26,11 +26,10 @@ export const RegisterUser = async (body) => {
 export const Logout = async (token) => {
   return fetch(`${API_ENDPOIND}/logout`, {
     method: 'POST',
-    body: JSON.stringify(''),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}` // Asegúrate de que el token se envía aquí correctamente
     }
   });
 };

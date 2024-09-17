@@ -1,5 +1,7 @@
+const API_ENDPOIND = process.env.EXPO_PUBLIC_BASE_URL
+const API_VERSION = process.env.EXPO_PUBLIC_VERSION
 import { View } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   FormControl,
@@ -15,55 +17,75 @@ import Rating from "./Rating";
 import Message from "./Notifications/Message";
 import { CheckBox } from "react-native";
 import Buttone from "./Buttone";
+import { UserContext } from '../context/UserContext'
+
+
 
 export default function Review({ productId, productName }) {
   const [rating, setRating] = useState("");
   const [comment, setCommet] = useState("");
   const [averageRating, setAverageRating] = useState(null);
   const [reviews, setReviews] = useState([]);
+  
+  
+  const { user } = useContext(UserContext)
 
   useEffect(() => {
-    // Obtener el promedio de rating del producto
-    const fetchAverageRating = async () => {
+    const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://tu-api.com/api/product/${productId}/average-rating`);
+        const response = await fetch(`${API_ENDPOIND}/shop/all-comentarios`);
         const data = await response.json();
+        console.log(response);
         if (data.ok) {
-          setAverageRating(data.averageRating);
+          // Filtrar los comentarios por el productId recibido
+          const filteredReviews = data.data.filter(review => review.product_id === productId);
+          setReviews(filteredReviews);
+
+          // Calcular el promedio de las calificaciones
+          const averageRating = filteredReviews.reduce((sum, review) => sum + parseFloat(review.rating), 0) / filteredReviews.length;
+          setAverageRating(averageRating);
+
+          console.log(filteredReviews);
         } else {
           console.error(data.msg);
         }
       } catch (error) {
-        console.error('Error fetching average rating:', error);
+        console.error('Error fetching product details:', error);
       }
     };
-
-    // Obtener las reseñas del producto
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch(`http://tu-api.com/api/product/${productId}/reviews`);
-        const data = await response.json();
-        if (data.ok) {
-          setReviews(data.reviews);
-        } else {
-          console.error(data.msg);
-        }
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-      }
-    };
-
-    fetchAverageRating();
-    fetchReviews();
+  
+    fetchProductDetails();
   }, [productId]);
 
 
-  const handleSubmit = () => {
-    // Aquí puedes enviar la reseña al backend usando productId
-    console.log("Product ID:", productId);
-    console.log("Rating:", rating);
-    console.log("Comment:", comment);
-    // Implementar lógica para enviar datos al backend
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${API_ENDPOIND}/shop/create-comentarios`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productId,
+          client_id: user.user.id, // Asume que el client_id lo tienes disponible (puedes reemplazarlo con el valor correcto)
+          rating: rating,
+          comentario: comment,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.ok) {
+        console.log('Review submitted successfully:', data);
+        // Aquí puedes actualizar la lista de reseñas o limpiar el formulario
+        setRating("");  // Limpia el rating
+        setCommet("");  // Limpia el comentario
+      } else {
+        console.error('Error submitting review:', data.msg);
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
   };
 
   return (
@@ -72,31 +94,39 @@ export default function Review({ productId, productName }) {
         REVIEW
       </Heading>
       {/* IF THERE IS NO REVIEW */}
-      <Message
-        color={Colors.main}
-        bg={Colors.deepGray}
-        bold
-        children={"NO REVIEW"}
-      />
-
-      {/* REVIEW */}
-      <Box p={3} bg={Colors.deepGray} mt={5} rounded={5}>
+      <Box>
+  {averageRating && (
+    <Text bold fontSize={16}>
+      Average Rating: {averageRating}
+    </Text>
+  )}
+  {reviews.length > 0 ? (
+    reviews.map((review, index) => (
+      <Box key={index} bg={Colors.deepGray} p={3} mt={3} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
-          Usuario Ana
+          {`Usuario ${review.client?.name}`}
         </Heading>
-        <Rating value={4} />
+        <Rating value={review.rating} />
         <Text my={2} fontSize={11}>
-          12/01/2024
+          {review.created_at}
         </Text>
         <Message
           color={Colors.black}
           bg={Colors.white}
           size={12}
-          children={
-            "NativeBase ships with a default theme for each component. Check out the default theme of the input here."
-          }
+          children={review.comentario}
         />
       </Box>
+    ))
+  ) : (
+    <Message
+      color={Colors.main}
+      bg={Colors.deepGray}
+      bold
+      children={"NO REVIEWS"}
+    />
+  )}
+</Box>
       {/* WRITE REVIEW */}
       <Box mt={6}>
         <Heading fontSize={15} bold mb={4}>
@@ -153,9 +183,11 @@ export default function Review({ productId, productName }) {
               _focus={{ 
                 bg: Colors.sudOrange, 
               }}
+              value={comment} // El valor del campo es el estado "comment"
+              onChangeText={(text) => setCommet(text)} // Actualiza el estado de "comment"
             />
           </FormControl>
-          <Buttone bg={Colors.main} color={Colors.white}>
+          <Buttone bg={Colors.main} color={Colors.white} onPress={handleSubmit}>
             SUBMIT
           </Buttone>
           

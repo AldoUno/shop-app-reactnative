@@ -1,6 +1,6 @@
 import { Text, Box, Heading, VStack, Input, Image, Button, Pressable } from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Colors from '../color'
 import { Keyboard } from 'react-native'
 import { LoginInit } from '../Services/fetchServices'
@@ -9,6 +9,7 @@ import FormikInputPasswordValue from '../Components/Form/FormInputPasswordValue'
 import loginValidationSchema from '../Components/ValidationSchema/login'
 import StyledText from '../Components/Form/StyledText'
 import { Formik } from 'formik'
+import { UserContext } from '../context/UserContext'
 
 const initialValues = {
   email: '',
@@ -16,6 +17,7 @@ const initialValues = {
 }
 
 const LoginScreen = ({ navigation }) => {
+  const { setUser } = useContext(UserContext)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -32,7 +34,8 @@ const LoginScreen = ({ navigation }) => {
           throw new Error(message)
         }
       })
-      .then(async () => {
+      .then(userData => {
+        setUser(userData)
         navigation.navigate('Bottom')
       })
       .catch(error => {

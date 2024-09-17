@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, FormControl, Input, ScrollView, Text, VStack } from "native-base";
 import Colors from "../../color";
 import Buttone from "../Buttone";
-import { getInfoFromUser } from '../../Services/fetchServices';
+import { Logout } from '../../Services/fetchServices';
+import { UserContext } from "../../context/UserContext";
+import { useNavigation } from "@react-navigation/native"
 
 const Inputs = [
   {
@@ -28,34 +30,36 @@ const Inputs = [
 ];
 
 const Profile = () => {
+  const { user, setUser } = useContext(UserContext)
+  const navigation = useNavigation()
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirm_password: ''
+    name:  `${user.user?.name || ""} ${user.user?.surname || ""}`,
+    email: user.user?.email || "",
+    password: "",
+    confirm_password: ""
   });
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-       
-        const response = await getInfoFromUser('userinfo');
-        const data = await response.json();
-        if (data.ok) {
-          setUserInfo(prevState => ({
-            ...prevState,
-            name: data.data.name,
-            email: data.data.email
-          }));
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error);
+  const handleLogout = async () => {
+    try {
+      const token = user.authorisation?.token
+
+      if (!token) throw new Error("No se encontró el token de autorización.");
+
+      const response = await Logout(token);
+      if (response.ok) {
+        setUser(null); // Limpiar el contexto de usuario
+        navigation.navigate("Login"); // Redirigir al usuario a la pantalla de login
+      } else {
+        const errorData = await response.json();
+        console.error("Error al cerrar sesión:", errorData.message);
       }
-    };
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error.message);
+    }
+  }
+  
 
-    fetchUserInfo();
-  }, []);
-
+  
   return (
     <Box h="full" bg={Colors.white} px={5}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -72,7 +76,8 @@ const Profile = () => {
                 {i.label}
               </FormControl.Label>
               <Input
-                placeholder={userInfo[i.key]}
+                value={userInfo[i.key]}
+                onChangeText={(text) => setUserInfo({ ...userInfo, [i.key]: text })}
                 borderWidth={0.2}
                 borderColor={Colors.main}
                 bg={Colors.sudOrange}
@@ -91,7 +96,7 @@ const Profile = () => {
           <Buttone bg={Colors.main} color={Colors.white}>
             ACTUALIZAR PERFIL
           </Buttone>
-          <Buttone bg={Colors.main} color={Colors.white}>
+          <Buttone bg={Colors.main} color={Colors.white} onPress={handleLogout}>
             CERRAR SESIÓN
           </Buttone>
         </VStack>

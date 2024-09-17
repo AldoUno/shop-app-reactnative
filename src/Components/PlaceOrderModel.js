@@ -1,35 +1,45 @@
 import { Button, Center, HStack, Modal, VStack, Text } from 'native-base'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Buttone from './Buttone'
 import Colors from '../color'
 import { useNavigation } from '@react-navigation/native'
-
-const OrdersInfo = [
-  {
-    title:"Productos",
-    price: 34000,
-    color:"black"
-  },
-  {
-    title:"Envío",
-    price: 10000,
-    color:"black"
-  },
-  {
-    title:"Impuesto",
-    price: 1700,
-    color:"black"
-  },
-  {
-    title:"Monto Total",
-    price: 45700,
-    color:"main"
-  },
-]
+import { CartContext } from '../context/CartContext';
 
 const PlaceOrderModel = () => {
   const navigation = useNavigation()
   const [showModel, setShowModel] = useState(false)
+  const { cart } = useContext(CartContext);
+
+  // Calcular los valores dinámicos
+  const productsTotal = cart.reduce((sum, item) => sum + item.precio * item.quantity, 0);
+  const shipping = 15000; // Precio del envío
+  const tax = cart.reduce((sum, item) => sum + item.iva * item.quantity, 0);; // Impuesto
+  const total = productsTotal + shipping + tax; // Total final
+
+  // Crear el array dinámico con los datos calculados
+  const OrdersInfo = [
+    {
+      title: "Productos",
+      price: productsTotal,
+      color: "black"
+    },
+    {
+      title: "Envío",
+      price: shipping,
+      color: "black"
+    },
+    {
+      title: "Impuesto",
+      price: tax,
+      color: "black"
+    },
+    {
+      title: "Monto Total",
+      price: total,
+      color: "main"
+    },
+  ];
+
   return (
     <Center>
       <Buttone 
@@ -74,7 +84,7 @@ const PlaceOrderModel = () => {
               }} 
               _pressed={{ bg:Colors.main }}
             >
-              REALIZAR UN PEDIDO
+              REALIZAR PEDIDO
             </Button>
           </Modal.Footer>
         </Modal.Content>

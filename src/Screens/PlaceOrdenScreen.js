@@ -1,25 +1,28 @@
 import { Box, Heading, ScrollView } from 'native-base'
-import React from 'react'
+import React, { useContext } from 'react'
 import Colors from '../color'
 import OrderInfo from '../Components/OrderInfo'
 import { FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import OrderItem from '../Components/OrderItem'
 import PlaceOrderModel from '../Components/PlaceOrderModel'
+import { UserContext } from '../context/UserContext'
 
 function PlaceOrderScreen() {
+  const { user } = useContext(UserContext)
+
   return (
     <Box bg={Colors.sudOrange} flex={1} safeAreaTop pt={6} py={5}>
         <Box>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <OrderInfo 
               title="CLIENTE" 
-              subTitle="Usuario Ana" 
-              text="admin@example.com"
+              subTitle={`Usuario ${user.user.name}`}
+              text={`${user.user.email}`}
               icon={<FontAwesome name="user" size={30} color={Colors.white} />}
             />
             <OrderInfo 
               title="INFORMACIÓN DE ENVÍO" 
-              subTitle="Envío: Capiatá" 
+              subTitle={`Envío: ${user.user.city}`}
               text="Método de Pago: Efectivo"
               icon={
                 <FontAwesome5 
@@ -32,7 +35,7 @@ function PlaceOrderScreen() {
             <OrderInfo 
               title="ENVIAR A" 
               subTitle="Dirección:" 
-              text="Capiatá, La Candelaria, Edificio Yvyraty N° 1234"
+              text={`${user.user.address}, ${user.user.city}`}
               icon={
                 <Ionicons 
                   name="location-sharp" 

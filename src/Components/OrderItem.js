@@ -10,16 +10,18 @@ import {
   Text, 
   Button 
 } from 'native-base'
-import React from 'react'
-import products from '../data/Products'
+import React, { useContext } from 'react'
+import { CartContext } from '../context/CartContext'
 import Colors from '../color'
 
 const OrderItem = () => {
+  const { cart } = useContext(CartContext)
+
   return (
     <FlatList 
       showsVerticalScrollIndicator={false} 
-      data={products.slice(0,2)} 
-      keyExtractor={(item) => item._id} 
+      data={cart.slice(0,2)} 
+      keyExtractor={(item) => item.id} 
       renderItem={({item}) => (
         <Pressable>
           <Box mb={3}>
@@ -32,7 +34,7 @@ const OrderItem = () => {
             >
               <Center w="25%" bg={Colors.deepGray}>
                 <Image 
-                  source={{ uri:item.image }} 
+                  source={{ uri:`http://${item.url}` }} 
                   alt={item.name} 
                   w="full" 
                   h={24} 
@@ -44,7 +46,7 @@ const OrderItem = () => {
                   {item.name}
                 </Text>
                 <Text color={Colors.lightBlack} mt={2} bold>
-                  ₲{item.price}
+                  ₲{item.precio}
                 </Text>
               </VStack>
               <Center>
@@ -53,7 +55,7 @@ const OrderItem = () => {
                   _pressed={{ bg:Colors.main }} 
                   _text={{ color:Colors.white }}
                 >
-                  4
+                  {item.quantity}
                 </Button>
               </Center>
             </HStack>

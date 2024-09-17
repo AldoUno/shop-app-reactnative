@@ -7,30 +7,33 @@ import RegisterScreen from './src/Screens/RegisterScreen'
 import OrderScreen from './src/Screens/OrderScreen'
 import BottomNav from './src/Navigations/BottomNav'
 import { CartProvider } from './src/context/CartContext'
+import { UserProvider } from './src/context/UserContext'
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return(
-    <CartProvider>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <StatusBar hidden={true}/>
-          <Stack.Navigator 
-            initialRouteName="Login" 
-            screenOptions={{ 
-              headerShown:false,
-            }}
-          >
-            <Stack.Screen name='Login' component={LoginScreen} />
-            <Stack.Screen name='Register' component={RegisterScreen} />
-            <Stack.Screen name='Order' component={OrderScreen} />
-            <Stack.Screen name='Bottom' component={BottomNav} />
-            
-          </Stack.Navigator>
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <StatusBar hidden={true}/>
+            <Stack.Navigator 
+              initialRouteName="Login" 
+              screenOptions={{ 
+                headerShown:false,
+              }}
+            >
+              <Stack.Screen name='Login' component={LoginScreen} />
+              <Stack.Screen name='Register' component={RegisterScreen} />
+              <Stack.Screen name='Order' component={OrderScreen} />
+              <Stack.Screen name='Bottom' component={BottomNav} />
+              
+            </Stack.Navigator>
+          </NavigationContainer>
+        </NativeBaseProvider>
+      </CartProvider>
+    </UserProvider>
   ); 
 }
 

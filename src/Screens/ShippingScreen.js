@@ -8,32 +8,50 @@ import {
   FormControl,
   Input,
 } from "native-base";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Colors from "../color";
 import Buttone from "../Components/Buttone";
 import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../context/UserContext";
 
 const ShippingInputs = [
   {
     label:"CIUDAD",
-    type:"text"
-  },
-  {
-    label:"PAÍS",
-    type:"text"
-  },
-  {
-    label:"CÓDIGO POSTAL",
-    type:"text"
+    type:"text",
+    key:"city"
   },
   {
     label:"DIRECCIÓN",
-    type:"text"
+    type:"text",
+    key:"address"
   },
+  {
+    label:"CELULAR",
+    type:"text",
+    key:"phone"
+  }
 ]
 
 function ShippingScreen() {
   const navigation = useNavigation()
+  const { user, setUser } = useContext(UserContext)
+  const [shippingData, setShippingData] = useState({
+    city: user.user?.city || "",
+    address: user.user?.address || "",
+    phone: user.user?.phone || ""
+  })
+
+  const handleInputChange = (key, value) => {
+    setShippingData({ ...shippingData, [key]: value });
+  }
+
+  console.log('user: ' , user) 
+
+  const handleContinue = () => {
+    setUser({ ...user, ...shippingData }); // Guardar los datos de envío en el contexto del usuario
+    navigation.navigate("Checkout");
+  }
+
   return (
     <Box flex={1} safeAreaTop bg={Colors.main} py={5}>
       {/* HEADER */}
@@ -67,11 +85,13 @@ function ShippingScreen() {
                     borderWidth:1,
                     borderColor:Colors.main,  
                   }}
+                  value={shippingData[i.key]}
+                  onChangeText={(value) => handleInputChange(i.key, value)}
                 />
               </FormControl>
             ))}
             <Buttone 
-              onPress={() => navigation.navigate("Checkout")} 
+              onPress={handleContinue} 
               bg={Colors.main} 
               color={Colors.white} 
               mt={5}

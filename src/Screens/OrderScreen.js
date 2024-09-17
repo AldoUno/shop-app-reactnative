@@ -1,12 +1,16 @@
 import { Box, Heading, ScrollView } from 'native-base'
-import React from 'react'
+import React, { useContext } from 'react'
 import Colors from '../color'
 import OrderInfo from '../Components/OrderInfo'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import OrderItem from '../Components/OrderItem'
 import OrderModel from '../Components/OrderModel'
+import { UserContext } from '../context/UserContext'
 
 function OrderScreen() {
+
+  const { user } = useContext(UserContext)
+
   return (
     /* Contenedor principal con fondo naranja y espacio seguro en la parte superior */
     <Box bg={Colors.sudOrange} flex={1} safeAreaTop pt={6} >
@@ -16,7 +20,7 @@ function OrderScreen() {
             <OrderInfo 
               title="INFORMACIÓN DE ENVÍO"
               success
-              subTitle="Envío: Capiatá" 
+              subTitle={`Envío: ${user.city}`} 
               text="Método de Pago: Efectivo"
               icon={
                 <FontAwesome5 
@@ -31,7 +35,7 @@ function OrderScreen() {
               title="ENVIAR A" 
               subTitle="Dirección:" 
               danger
-              text="Capiatá, La Candelaria, Edificio Yvyraty N° 1234"
+              text={`${user.address}, ${user.city}`}
               icon={
                 <Ionicons 
                   name="location-sharp" 
