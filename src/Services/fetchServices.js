@@ -82,9 +82,8 @@ export const ListItems = (path, pageNumber, token) => {
 //     });
 // };
 
-export const ListPedidosByClient = (path, pageNumber, client, token) => {
-  return (
-    fetch(`${API_ENDPOIND}/shop/${path}/${client}/${pageNumber}`, {
+export const ListPedidosByUser = (path, pageNumber, user, token) => {
+  return fetch(`${API_ENDPOIND}/shop/${path}/${user}/${pageNumber}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +91,6 @@ export const ListPedidosByClient = (path, pageNumber, client, token) => {
         Authorization: `Bearer ${token}`
       }
     })
-  )
 }
 
 export const List = (path, token) => {

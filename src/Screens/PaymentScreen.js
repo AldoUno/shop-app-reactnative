@@ -6,13 +6,17 @@ import {
   VStack,
   HStack,
   Image,
+  Modal,
   View,
+  Button
 } from "native-base";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Colors from "../color";
 import Buttone from "../Components/Buttone";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
+import { CartContext } from '../context/CartContext';
 
 // Definimos los métodos de pago con su información correspondiente
 const paymentMethodes = [
@@ -22,20 +26,47 @@ const paymentMethodes = [
     //icon: "Ionicons", // Icono a utilizar para este método de pago
   },
   {
-    image: require("../../assets/visa.png"), // Imagen para el método de pago Visa
-    alt: "visa", // Texto alternativo para la imagen
+    image: require("../../assets/qr.png"), // Imagen para el método de pago Visa
+    alt: "qr", // Texto alternativo para la imagen
     icon: "Ionicons", // Icono a utilizar para este método de pago
   },
   {
-    image: require("../../assets/mastercard.png"), // Imagen para el método de pago Mastercard
-    alt: "mastercard", // Texto alternativo para la imagen
+    image: require("../../assets/tigo.png"), // Imagen para el método de pago Mastercard
+    alt: "tigo", // Texto alternativo para la imagen
     icon: "FontAwesome", // Icono a utilizar para este método de pago
   },
 ]
 
+
+
 function PaymentScreen() {
   const navigation = useNavigation() // Obtenemos el objeto de navegación
-
+  const [showModel, setShowModel] = useState(false)
+  const { cart } = useContext(CartContext);
+  
+  // Calcular los valores dinámicos
+  const productsTotal = cart.reduce((sum, item) => sum + item.precio * item.quantity, 0);
+  const tax = cart.reduce((sum, item) => sum + item.iva * item.quantity, 0);; // Impuesto
+  const total = productsTotal + tax; // Total final
+  
+  // Crear el array dinámico con los datos calculados
+  const OrdersInfo = [
+    {
+      title: "Productos",
+      price: productsTotal,
+      color: "black"
+    },
+    {
+      title: "Impuesto",
+      price: tax,
+      color: "black"
+    },
+    {
+      title: "Monto Total",
+      price: total,
+      color: "main"
+    },
+  ];
   const [check, setCheck] = useState({
     efectivo: true,
     mastercard: false,
@@ -49,6 +80,45 @@ function PaymentScreen() {
         <Text color={Colors.white} fontSize={14} bold>
           MÉTODO DE PAGO
         </Text>
+        <Modal 
+        isOpen={showModel} 
+        onClose={() => setShowModel(false)} 
+        size="lg"
+      >
+        <Modal.Content maxWidth={350}>
+          <Modal.CloseButton />
+          <Modal.Header>Orden</Modal.Header>
+          <Modal.Body>
+            <VStack space={7}>
+              {OrdersInfo.map((i, index) => (              
+                <HStack key={index} alignItems="center" justifyContent="space-between">
+                  <Text fontWeight="medium">
+                    {i.title}
+                  </Text>
+                  <Text color={i.color === "main" ? Colors.main : Colors.black} bold>
+                    ₲{i.price}
+                  </Text>
+                </HStack>)
+              )}
+            </VStack>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button 
+              flex={1} 
+              bg={Colors.main} 
+              h={45} 
+              _text={{ color:Colors.white }} 
+              onPress={() => { 
+                navigation.navigate("Order")
+                setShowModel(false)
+              }} 
+              _pressed={{ bg:Colors.main }}
+            >
+              REALIZAR PEDIDO
+            </Button>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
       </Center>
       {/* SELECTION */}
       <Box h="full" bg={Colors.sudOrange} px={5}>
@@ -95,7 +165,7 @@ function PaymentScreen() {
 
             {/* Botón para continuar con el proceso de pago */}
             <Buttone 
-              onPress={() => navigation.navigate("Placeorder")} 
+              onPress={() => setShowModel(true)}
               bg={Colors.main} 
               color={Colors.white} 
               mt={5}

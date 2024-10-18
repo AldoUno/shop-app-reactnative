@@ -46,14 +46,23 @@ function CartScreen() {
           <Text mr={4}>₲{total}</Text>
         </HStack>
       </Center>
+   
       <Center px={5}>
+        <Buttone
+          onPress={() => navigation.navigate('Home')}
+          bg={Colors.black}
+          color={Colors.white}
+          mt={10}
+        >
+          SEGUIR COMPRANDO
+        </Buttone>
         <Buttone
           onPress={() => navigation.navigate('Shipping')}
           bg={Colors.black}
           color={Colors.white}
           mt={10}
         >
-          PAGAR
+          SIGUIENTE
         </Buttone>
       </Center>
     </Box>

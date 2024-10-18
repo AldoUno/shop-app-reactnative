@@ -1,15 +1,16 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useContext } from 'react';
 import { Box, FlatList, Heading, Pressable, Text, VStack, useToast } from 'native-base';
 import { ActivityIndicator, Image } from 'react-native';
 import Colors from '../color';
 import { useNavigation } from '@react-navigation/native';
 import { ListItems } from '../Services/fetchServices';
+import { UserContext } from "../context/UserContext";
 
 const ProductItem = memo(({ product, navigation }) => (
   <Pressable
     onPress={() => navigation.navigate('Single', product)}
     key={product.id}
-    w="47%"
+    w="48%"
     bg={Colors.white}
     rounded="md"
     shadow={2}
@@ -25,7 +26,7 @@ const ProductItem = memo(({ product, navigation }) => (
       alt={`${product.name}`}
       style={{
         width: '100%',
-        height: 200,
+        height: 100,
         resizeMode: 'contain',
       }}
       fallbackSource={{ uri: 'https://via.placeholder.com/150' }}
@@ -41,7 +42,7 @@ const ProductItem = memo(({ product, navigation }) => (
   </Pressable>
 ));
 
-function HomeProducts({ searchQuery }) {
+function HomeProducts({ searchQuery, selectedCategory }) {
   const navigation = useNavigation();
   const toast = useToast();
   const [products, setProducts] = useState([]);
@@ -49,17 +50,29 @@ function HomeProducts({ searchQuery }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMoreProducts, setHasMoreProducts] = useState(true);
+  const { user } = useContext(UserContext)
+  
+  const token = user.authorisation?.token
 
   useEffect(() => {
-    if (hasMoreProducts) {
+    if (hasMoreProducts && token) {
       getProducts();
     }
-  }, [pageNumber]);
+  }, [pageNumber, token]);
 
   const getProducts = async () => {
     setLoading(true);
 
-    ListItems('products', pageNumber)
+    
+
+    if (!token) {
+      console.error("No se encontró el token de autorización. Redirigiendo al login...");
+      navigation.navigate('Login');
+      return;
+    }
+    console.log("token: " , token)
+
+    ListItems('products', pageNumber, token)
       .then(res => {
         if (res.ok) return res.json();
         else {
@@ -69,19 +82,35 @@ function HomeProducts({ searchQuery }) {
       })
       .then(data => {
         if (data.data.length > 0) {
-          setProducts(prevProducts => [...prevProducts, ...data.data]);
+          setProducts(prevProducts => {
+            const updatedProducts = [...prevProducts, ...data.data];
+            //console.log("Productos obtenidos:", updatedProducts); // Aquí se imprimen los productos
+            return updatedProducts;
+          });
         } else {
           setHasMoreProducts(false);
-          showToastMessage('Aviso!', 'Ya no existen productos para mostrar!');
+          showToastMessage('¡Aviso!', '¡Ya no existen productos para mostrar!');
         }
       })
-      .catch(error => console.log('Avisos!', error.message))
+      .catch(error => console.log('¡Avisos!', error.message))
       .finally(() => { setLoading(false); setLoadingMore(false); });
   };
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+
+  // Filtro de productos por búsqueda y categoría seleccionada
+  const filteredProducts = products.filter(product => {
+    if (!product) return false; // Si el producto es null o undefined, lo excluye
+  
+    const nameMatches = product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase());
+  
+    const categoryMatches = product.category && product.category.description && 
+      product.category.description.toLowerCase().includes(searchQuery.toLowerCase());
+  
+    const categorySelectedMatches = !selectedCategory || (product.category && product.category.id === selectedCategory);
+  
+    // Retorna true solo si alguna de las condiciones de coincidencia se cumple y la categoría coincide (si está seleccionada)
+    return (nameMatches || categoryMatches) && categorySelectedMatches;
+  });
 
   const loadMoreProducts = () => {
     if (!loadingMore && hasMoreProducts) {
@@ -103,7 +132,7 @@ function HomeProducts({ searchQuery }) {
     { length: 200, offset: 200 * index, index }
   );
 
-  const showToastMessage = (title = 'Aviso!', description = 'Description', variant = 'solid') => {
+  const showToastMessage = (title = '¡Aviso!', description = 'Description', variant = 'solid') => {
     toast.show({
       render: () => {
         return (

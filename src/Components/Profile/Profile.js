@@ -2,9 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { Box, FormControl, Input, ScrollView, Text, VStack } from "native-base";
 import Colors from "../../color";
 import Buttone from "../Buttone";
-import { Logout } from '../../Services/fetchServices';
+import { Logout, Edit} from '../../Services/fetchServices';
 import { UserContext } from "../../context/UserContext";
 import { useNavigation } from "@react-navigation/native"
+import { CartContext } from '../../context/CartContext';
+
+
 
 const Inputs = [
   {
@@ -31,6 +34,7 @@ const Inputs = [
 
 const Profile = () => {
   const { user, setUser } = useContext(UserContext)
+  const { clearCart } = useContext(CartContext);
   const navigation = useNavigation()
   const [userInfo, setUserInfo] = useState({
     name:  `${user.user?.name || ""} ${user.user?.surname || ""}`,
@@ -39,25 +43,71 @@ const Profile = () => {
     confirm_password: ""
   });
 
-  const handleLogout = async () => {
+
+  const handleUpdateProfile = async () => {
+    if (userInfo.password !== userInfo.confirm_password) {
+      console.error('Las contraseñas no coinciden');
+      return;
+    }
+
     try {
-      const token = user.authorisation?.token
+      const token = user.authorisation?.token;
+      const userId = user.user?.id; // Obtener el ID del usuario
 
-      if (!token) throw new Error("No se encontró el token de autorización.");
+      if (!token || !userId) throw new Error("Faltan datos necesarios para actualizar el perfil.");
 
-      const response = await Logout(token);
+      const userDataToUpdate = {
+        name: userInfo.name,
+        email: userInfo.email,
+        password: userInfo.password || undefined, // Solo envía la contraseña si ha sido cambiada
+      };
+
+      const response = await Edit(userDataToUpdate, 'update-user', userId, token); // Pasar los datos del usuario, ruta e ID
+
+      if (response.ok) {
+        const updatedUserData = await response.json();
+        setUser(updatedUserData); // Actualiza el contexto con los nuevos datos del usuario
+        console.log("Perfil actualizado correctamente");
+      } else {
+        const errorData = await response.json();
+        console.error("Error al actualizar el perfil:", errorData.message);
+      }
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    //try {
+      
+      const token = user.authorisation.token
+      console.log("usuario t: ",token)
+      Logout(token)
+      .then(async(response) => {
+        if(response.ok){
+          //
+          navigation.navigate('Login'); // Redirigir al usuario a la pantalla de login
+        }else{
+          const errorData = await response.json();
+          console.error("Error al cerrar sesión:", errorData.message);
+        }
+      })
+      .finally(() => {
+        setUser(null); // Limpiar el contexto de usuario
+        clearCart();
+      })
+      /*const response = await Logout(token);
       if (response.ok) {
         setUser(null); // Limpiar el contexto de usuario
-        navigation.navigate("Login"); // Redirigir al usuario a la pantalla de login
+        navigation.navigate('Login'); // Redirigir al usuario a la pantalla de login
       } else {
         const errorData = await response.json();
         console.error("Error al cerrar sesión:", errorData.message);
       }
     } catch (error) {
       console.error("Error al cerrar sesión:", error.message);
-    }
-  }
-  
+    }*/
+  };
 
   
   return (
@@ -93,7 +143,7 @@ const Profile = () => {
               />
             </FormControl>
           ))}
-          <Buttone bg={Colors.main} color={Colors.white}>
+          <Buttone bg={Colors.main} color={Colors.white} onPress={handleUpdateProfile}>
             ACTUALIZAR PERFIL
           </Buttone>
           <Buttone bg={Colors.main} color={Colors.white} onPress={handleLogout}>

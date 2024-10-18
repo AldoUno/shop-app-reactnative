@@ -58,7 +58,7 @@ const BottomNav = () => {
         }}
       />
       {/* CART */}
-      <Tab.Screen
+      {/*<Tab.Screen
         name="Cart"
         component={BasketScreen}
         options={{
@@ -81,7 +81,7 @@ const BottomNav = () => {
             </Center>
           ),
         }}
-      />
+      />*/}
       {/* PROFILE */}
       <Tab.Screen
         name="profile"

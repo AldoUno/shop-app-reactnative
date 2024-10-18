@@ -50,7 +50,7 @@ export default function Review({ productId, productName }) {
           console.error(data.msg);
         }
       } catch (error) {
-        console.error('Error fetching product details:', error);
+        //console.error('Error al obtener los detalles del producto:', error);
       }
     };
   
@@ -76,35 +76,35 @@ export default function Review({ productId, productName }) {
       const data = await response.json();
   
       if (data.ok) {
-        console.log('Review submitted successfully:', data);
+        console.log('Reseña enviada exitosamente:', data);
         // Aquí puedes actualizar la lista de reseñas o limpiar el formulario
         setRating("");  // Limpia el rating
         setCommet("");  // Limpia el comentario
       } else {
-        console.error('Error submitting review:', data.msg);
+        console.error('Error al enviar la reseña:', data.msg);
       }
     } catch (error) {
-      console.error('Error submitting review:', error);
+      console.error('Error al enviar la reseña:', error);
     }
   };
 
   return (
     <Box my={9}>
       <Heading bold fontSize={15} mb={2}>
-        REVIEW
+        RESEÑAR
       </Heading>
       {/* IF THERE IS NO REVIEW */}
       <Box>
   {averageRating && (
     <Text bold fontSize={16}>
-      Average Rating: {averageRating}
+      Puntuación Media: {averageRating}
     </Text>
   )}
   {reviews.length > 0 ? (
     reviews.map((review, index) => (
       <Box key={index} bg={Colors.deepGray} p={3} mt={3} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
-          {`Usuario ${review.client?.name}`}
+          {`Usuario ${review.user?.name}`}
         </Heading>
         <Rating value={review.rating} />
         <Text my={2} fontSize={11}>
@@ -123,14 +123,14 @@ export default function Review({ productId, productName }) {
       color={Colors.main}
       bg={Colors.deepGray}
       bold
-      children={"NO REVIEWS"}
+      children={"SIN RESEÑAS"}
     />
   )}
 </Box>
       {/* WRITE REVIEW */}
       <Box mt={6}>
         <Heading fontSize={15} bold mb={4}>
-          REVIEW THIS PRODUCT
+          RESEÑA ESTE PRODUCTO
         </Heading>
         <VStack space={6}>
           <FormControl>
@@ -140,14 +140,14 @@ export default function Review({ productId, productName }) {
                 fontWeight: "bold",
               }}
             >
-              Rating
+              Calificación
             </FormControl.Label>
             <Select
               bg={Colors.sudOrange}
               borderWidth={0}
               rounded={5}
               py={4}
-              placeholder="Choose Rate"
+              placeholder="Elige Calificación"
               _selectedItem={{
                 bg: Colors.sudOrange,
                 endIcon: <CheckIcon size={3} />,
@@ -157,11 +157,11 @@ export default function Review({ productId, productName }) {
               selectedValue={rating}
               onValueChange={(e) => setRating(e)}
             >
-            <Select.Item label="1 - Poor" value="1" />
-            <Select.Item label="2 - Fair" value="2" />
-            <Select.Item label="3 - Good" value="3" />
-            <Select.Item label="4 - Very Good" value="4" />
-            <Select.Item label="5 - Excellent" value="5" />
+            <Select.Item label="1 - Deficiente" value="1" />
+            <Select.Item label="2 - Regular" value="2" />
+            <Select.Item label="3 - Bueno" value="3" />
+            <Select.Item label="4 - Muy Bueno" value="4" />
+            <Select.Item label="5 - Excelente" value="5" />
             </Select>
           </FormControl>
           <FormControl>
@@ -171,12 +171,12 @@ export default function Review({ productId, productName }) {
                 fontWeight: "bold",
               }}
             >
-              Comment
+              Comentario
             </FormControl.Label>
             <TextArea
               h={20}
               w="full"
-              placeholder="This product is good ......"
+              placeholder="Este producto es bueno..."
               borderWidth={0}
               bg={Colors.sudOrange}
               py={4}
@@ -188,7 +188,7 @@ export default function Review({ productId, productName }) {
             />
           </FormControl>
           <Buttone bg={Colors.main} color={Colors.white} onPress={handleSubmit}>
-            SUBMIT
+            ENVIAR
           </Buttone>
           
           {/*<Message

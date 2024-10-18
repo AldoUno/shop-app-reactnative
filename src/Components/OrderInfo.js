@@ -29,13 +29,6 @@ const OrderInfo = ({icon, title, subTitle, text, success, danger}) => {
         {text}
       </Text>
       {/* STATUS */}
-      {success && (
-        <Center py={2} mt={2} rounded={5} w="full" bg={Colors.blue}>
-          <Text fontSize={12} color={Colors.white}>
-            Pagado en 12/01/2024
-          </Text>
-        </Center>
-      )}
 
       {danger && (
         <Center py={2} mt={2} rounded={5} w="full" bg={Colors.red}>

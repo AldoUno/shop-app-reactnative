@@ -32,7 +32,12 @@ function HomeSearch({ searchQuery, setSearchQuery }) {
             bg:Colors.white,
           }}
         />
-        <Pressable ml={3} onPress={() => navigation.navigate('Cart')}>
+        <Pressable ml={3} onPress={() => {if (cart.length > 0) {
+          navigation.navigate('CartScreen'); // Navega a CartScreen si hay productos en el carrito
+        } else {
+          navigation.navigate('CartEmpty'); // Navega a CartEmpty si el carrito está vacío
+        }}
+        }>
           <FontAwesome5 name="shopping-basket" size={24} color={Colors.white} />
           {cart.length > 0 && (
           <Box 

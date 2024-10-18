@@ -1,6 +1,6 @@
 import { Text, Box, Heading, VStack, Input, Image, Button, Pressable } from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Colors from '../color'
 import { Keyboard } from 'react-native'
 import { LoginInit } from '../Services/fetchServices'

@@ -12,20 +12,14 @@ const PlaceOrderModel = () => {
 
   // Calcular los valores dinámicos
   const productsTotal = cart.reduce((sum, item) => sum + item.precio * item.quantity, 0);
-  const shipping = 15000; // Precio del envío
   const tax = cart.reduce((sum, item) => sum + item.iva * item.quantity, 0);; // Impuesto
-  const total = productsTotal + shipping + tax; // Total final
+  const total = productsTotal + tax; // Total final
 
   // Crear el array dinámico con los datos calculados
   const OrdersInfo = [
     {
       title: "Productos",
       price: productsTotal,
-      color: "black"
-    },
-    {
-      title: "Envío",
-      price: shipping,
       color: "black"
     },
     {
@@ -43,12 +37,21 @@ const PlaceOrderModel = () => {
   return (
     <Center>
       <Buttone 
-        onPress={() => setShowModel(true)} 
+        onPress={() => navigation.navigate('Home')} 
         bg={Colors.black} 
         color={Colors.white} 
         mt={5}
       >
-        MOSTRAR TOTAL
+        SEGUIR COMPRANDO
+      </Buttone>
+      <Buttone 
+        onPress={() => navigation.navigate('Checkout')} 
+        //onPress={() => setShowModel(true)} 
+        bg={Colors.black} 
+        color={Colors.white} 
+        mt={5}
+      >
+        MOSTRAR MÉTODO DE PAGO
       </Buttone>
       <Modal 
         isOpen={showModel} 

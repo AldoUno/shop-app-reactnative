@@ -12,18 +12,23 @@ function PlaceOrderScreen() {
 
   return (
     <Box bg={Colors.sudOrange} flex={1} safeAreaTop pt={6} py={5}>
-        <Box>
+        <Box alignItems="center">
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <OrderInfo 
               title="CLIENTE" 
-              subTitle={`Usuario ${user.user.name}`}
-              text={`${user.user.email}`}
+              subTitle={`${user.user.name + user.user.surname}`}
+              text={`${user.user.cedula}
+  ${user.user.email}
+  ${user.user.phone}`}
+              textStyle={{
+                textAlign: "center", // Centra el texto horizontalmente
+                alignSelf: "center", // Asegura que el contenedor del texto esté centrado
+              }}
               icon={<FontAwesome name="user" size={30} color={Colors.white} />}
             />
-            <OrderInfo 
-              title="INFORMACIÓN DE ENVÍO" 
-              subTitle={`Envío: ${user.user.city}`}
-              text="Método de Pago: Efectivo"
+            {/*<OrderInfo 
+              title="MÉTODO DE PAGO" 
+              subTitle={`Método de Pago: ${user.user.city}`}
               icon={
                 <FontAwesome5 
                   name="shipping-fast" 
@@ -31,19 +36,8 @@ function PlaceOrderScreen() {
                   color={Colors.white} 
                 />
               }
-            />
-            <OrderInfo 
-              title="ENVIAR A" 
-              subTitle="Dirección:" 
-              text={`${user.user.address}, ${user.user.city}`}
-              icon={
-                <Ionicons 
-                  name="location-sharp" 
-                  size={30} 
-                  color={Colors.white} 
-                />
-              }
-            />
+            />*/}
+
           </ScrollView>
         </Box>
         {/* ORDER ITEM */}
@@ -53,6 +47,7 @@ function PlaceOrderScreen() {
         </Heading>
         <OrderItem />
         {/* TOTAL */} 
+
         <PlaceOrderModel />
       </Box>
     </Box>

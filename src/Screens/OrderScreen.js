@@ -17,11 +17,10 @@ function OrderScreen() {
         <Box>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
              {/* Información del envío */}
-            <OrderInfo 
-              title="INFORMACIÓN DE ENVÍO"
+            {/*<OrderInfo 
+              title="MÉTODO DE PAGO"
               success
-              subTitle={`Envío: ${user.city}`} 
-              text="Método de Pago: Efectivo"
+              subTitle={`Método de Pago: ${user.city}`} 
               icon={
                 <FontAwesome5 
                   name="shipping-fast" 
@@ -29,21 +28,7 @@ function OrderScreen() {
                   color={Colors.white} 
                 />
               }
-            />
-             {/* Información de entrega */}
-            <OrderInfo 
-              title="ENVIAR A" 
-              subTitle="Dirección:" 
-              danger
-              text={`${user.address}, ${user.city}`}
-              icon={
-                <Ionicons 
-                  name="location-sharp" 
-                  size={30} 
-                  color={Colors.white} 
-                />
-              }
-            />
+            />*/}
           </ScrollView>
         </Box>
         {/* ORDER ITEM */}

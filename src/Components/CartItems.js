@@ -12,13 +12,13 @@ const Swiper = ({ products, onRemove }) => (
     previewOpenValue={-40}
     previewOpenDelay={3000}
     data={products}
-    renderItem={renderitem}
-    renderHiddenItem={(data) => hiddenitem(data, onRemove)}
-    showsVerticalScrollIndicator={false}
+    renderItem={(data) => renderitem(data, onRemove)}
+    //renderHiddenItem={(data) => hiddenitem(data, onRemove)}
+    //showsVerticalScrollIndicator={false}
   />
 );
 
-const renderitem = (data) => (
+const renderitem = (data, onRemove) => (
   <Pressable>
     <Box ml={6} mb={0}>
       <HStack
@@ -37,7 +37,7 @@ const renderitem = (data) => (
             resizeMode="contain"
           />
         </Center>
-        <VStack w='60%' px={2} space={2}>
+        <VStack w='45%' px={2} space={2}>
           <Text isTruncated color={Colors.black} bold fontSize={10}>
             {data.item.name}
           </Text>
@@ -50,10 +50,22 @@ const renderitem = (data) => (
             bg={Colors.main} 
             _pressed={{ bg: Colors.main }} 
             _text={{ color: Colors.white,
-            }}            
+            }}
+                        
           >
             {data.item.quantity}
-          </Button>
+          </Button>         
+        </Center>
+        <Center px={2}>
+          <Button
+            bg={Colors.red} 
+            _pressed={{ bg: Colors.main }} 
+            _text={{ color: Colors.white,
+            }}
+            onPress={() => onRemove(data.item.id)}
+          >
+            <FontAwesome name="trash" size={24} color={Colors.white} />
+          </Button>          
         </Center>
       </HStack>
     </Box>

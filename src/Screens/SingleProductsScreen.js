@@ -8,7 +8,7 @@ import Colors from '../color';
 import { CartContext } from '../context/CartContext';
 
 function SingleProductsScreen({ route }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const navigation = useNavigation();
   const product = route.params;
   const { addToCart, isBasketFull, cart } = useContext(CartContext);
@@ -56,7 +56,7 @@ function SingleProductsScreen({ route }) {
               iconSize={25}
               step={1}
               maxValue={product.existencia}
-              minValue={0}
+              minValue={1}
               borderColor={Colors.deepGray}
               rounded
               textColor={Colors.black}
@@ -72,7 +72,7 @@ function SingleProductsScreen({ route }) {
           )}
           <Spacer />
           <Heading bold color={Colors.black} fontSize={19}>
-            ₲{product.precio}
+            ₲ {product.precio}
           </Heading>
         </HStack>
         <Text lineHeight={24} fontSize={12}>

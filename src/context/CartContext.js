@@ -22,6 +22,10 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    const clearCart = () => {
+        setCart([]);  // Vacía el carrito
+    };
+
     const removeFromCart = (productId) => {
         setCart((prevCart) => prevCart.filter(item => item.id !== productId));
     };
@@ -29,7 +33,7 @@ export const CartProvider = ({ children }) => {
     const isBasketFull = () => cart.reduce((sum, item) => sum + item.quantity, 0) >= basketLimit;
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, basketLimit, setBasketLimit, isBasketFull }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, basketLimit, setBasketLimit, isBasketFull, clearCart}}>
             {children}
         </CartContext.Provider>
     );

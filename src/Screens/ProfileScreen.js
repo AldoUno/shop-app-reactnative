@@ -13,7 +13,7 @@ function ProfileScreen() {
     const day = date.getDate();
     const month = date.toLocaleString('es-ES', { month: 'long' });
     const year = date.getFullYear();
-    
+
     return `${day} de ${month} de ${year}`;
   }
 
@@ -41,7 +41,7 @@ function ProfileScreen() {
           {`Usuario ${user.user?.name}`}
           </Heading>
           <Text italic fontSize={10} color={Colors.white}>
-          {`Se unió el ${formatDate(user.user?.created_at)}`}
+          {`Último acceso: ${formatDate(user.user?.created_at)}`}
           </Text>
         </Center>
         {/* TABS */}

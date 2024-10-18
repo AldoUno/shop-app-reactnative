@@ -16,14 +16,19 @@ import { UserContext } from "../context/UserContext";
 
 const ShippingInputs = [
   {
-    label:"CIUDAD",
+    label:"COMPRRADOR",
     type:"text",
-    key:"city"
+    key:"nombre"
   },
   {
-    label:"DIRECCIÓN",
+    label:"RUC",
     type:"text",
-    key:"address"
+    key:"cedula"
+  },
+  {
+    label:"CORREO ELECTRÓNICO",
+    type:"text",
+    key:"email"
   },
   {
     label:"CELULAR",
@@ -36,8 +41,9 @@ function ShippingScreen() {
   const navigation = useNavigation()
   const { user, setUser } = useContext(UserContext)
   const [shippingData, setShippingData] = useState({
-    city: user.user?.city || "",
-    address: user.user?.address || "",
+    nombre: user.user?.name + user.user?.surname || "",
+    cedula: user.user?.cedula || "",
+    email: user.user?.email || "",
     phone: user.user?.phone || ""
   })
 
@@ -49,7 +55,7 @@ function ShippingScreen() {
 
   const handleContinue = () => {
     setUser({ ...user, ...shippingData }); // Guardar los datos de envío en el contexto del usuario
-    navigation.navigate("Checkout");
+    navigation.navigate("Placeorder");
   }
 
   return (
@@ -57,7 +63,7 @@ function ShippingScreen() {
       {/* HEADER */}
       <Center pb={15}>
         <Text color={Colors.white} fontSize={14} bold>
-          DIRECCIÓN DE ENVÍO
+          DATOS DEL COMPRADOR
         </Text>
       </Center>
       <Box h="full" bg={Colors.white} px={5} >
